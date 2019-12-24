@@ -2,7 +2,7 @@ package sample;
 
 class Piece {
     String color;
-    int position;
+    private int position;
     Piece(){
 
     }
