@@ -9,7 +9,6 @@ public class Player {
     private int dice1=0;
     private int dice2=0;
     private enum color {GREEN, RED, BLUE, YELLOW}
-    enum action {MOVE, ROLL,STOP,HOME}
     Player(){
     }
     void set_id(int id){
