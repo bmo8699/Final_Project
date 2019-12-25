@@ -9,4 +9,7 @@ class Piece {
     int getPosition(){
         return position;
     }
+    void setPosition(int position){
+        this.position = position;
+    }
 }

@@ -5,11 +5,24 @@ public class Player {
     private String name;
     private boolean connected;
     private int point;
-    private Piece[] nest = new Piece[4];
-    private int dice1=0;
-    private int dice2=0;
-    private enum color {GREEN, RED, BLUE, YELLOW}
+    private int nestId;
+    private Dice[] dice = new Dice[2];
+    private int dice1 = 0;
+    private int dice2 = 0;
     Player(){
+    }
+    Player(int id, String name, boolean connected, int point, int nestid){
+        this.id = id;
+        this.name = name;
+        this.connected = connected;
+        this.point = point;
+        this.nestId = nestid;
+    }
+    void setNestId(int id){
+        nestId = id;
+    }
+    int getNestId(){
+        return nestId;
     }
     void set_id(int id){
         this.id = id;
@@ -17,8 +30,11 @@ public class Player {
     void set_name(String name){
         this.name = name;
     }
-    void activateConnection(boolean act){
-        this.connected = act;
+    void setConnected(){
+        connected = true;
+    }
+    void setDisconnected(){
+        connected = false;
     }
     boolean getConnection(){
         return connected;
@@ -26,37 +42,18 @@ public class Player {
     void storePoints(int point){
         this.point += point;
     }
-    void setColor(color color){
-        switch (color){
-            case RED:
-                for (Piece value : nest) {
-                    value.color = "red";
-                }
-                break;
-            case BLUE:
-                for (Piece piece : nest) {
-                    piece.color = "blue";
-                }
-                break;
-            case GREEN:
-                for (Piece piece : nest) {
-                    piece.color = "green";
-                }
-                break;
-            case YELLOW:
-                for (Piece piece : nest) {
-                    piece.color = "yellow";
-                }
-                break;
-        }
-    }
-    int MovePosition(Piece piece){
-        int destination=0;
+    int movePosition(){
+        Piece piece = pick();
+        int destination;
         destination = piece.getPosition() + dice1 + dice2;
         return destination;
     }
-    void roll(Dice[] dice){
-        dice = new Dice[2];
+    int movePosition(Piece piece){
+        int destination;
+        destination = piece.getPosition() + dice1 + dice2;
+        return destination;
+    }
+    void roll(){
         dice1 = dice[0].roll();
         dice2 = dice[1].roll();
     }
@@ -64,7 +61,7 @@ public class Player {
         return new int[]{dice1,dice2};
     }
     void stop(){
-        connected = false;
+        setDisconnected();
     }
     String getName(){
         return name;
@@ -75,7 +72,15 @@ public class Player {
     int getPoint(){
         return point;
     }
-    Piece getHorse(){
-        return nest[id];
+    Piece pick(){
+        Nest nest = new Nest();
+        return nest.getPiece().get(getNestId());
+    }
+    void deploy(Piece piece){
+        piece.setPosition(0);
+    }
+    void deploy(){
+        Piece piece = pick();
+        piece.setPosition(0);
     }
 }
